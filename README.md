@@ -10,3 +10,5 @@
 3. `$ meteor update`
 4. `$ meteor`
 5. `http://localhost:3000`
+
+[README-RUS](http://habrahabr.ru/post/248875/)
