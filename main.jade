@@ -1,0 +1,54 @@
+head
+  title Meteor Demo CollectionFS
+
+body
+  nav.navbar.navbar-default(role="navigation")
+    .container-fluid
+      //- Brand and toggle get grouped for better mobile display 
+      .navbar-header
+        button.navbar-toggle(type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1")
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand(href="/") Meteor Demo CollectionFS 
+      //- Collect the nav links, forms, and other content for toggling 
+      .collapse.navbar-collapse#bs-example-navbar-collapse-1
+        ul.nav.navbar-nav
+          li
+            a(href="#")
+              i.glyphicon.glyphicon-picture 
+              |Left Menu Item
+        ul.nav.navbar-nav.navbar-right
+          +if currentUser
+            +unless loggingIn
+              li
+                a(href="#")
+                  i.glyphicon.glyphicon-cog
+                  |Right Menu Item
+          +loginButtons
+          
+  #content-wrapper.container-fluid
+    +hello
+  
+template(name='hello')  
+  +if currentUser
+    +unless loggingIn
+      input(type="file" name="filedata" multiple="true")
+      hr
+  ul
+    +each photos
+      li
+        +if this.isUploaded
+          +if currentUser
+            +unless loggingIn
+              +FS.DeleteButton class="btn btn-danger btn-xs"
+              &nbsp;
+          a(href="{{this.url}}" target="_blank") {{this.name}}
+        +else #
+          .upload-name Load: {{this.name}}
+        +if currentUser
+          +unless loggingIn
+            +if isNewUpload
+              +FS.UploadProgressBar bootstrap=true class='progress-bar-success'
+        
