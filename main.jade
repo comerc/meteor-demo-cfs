@@ -43,7 +43,7 @@ template(name='hello')
           +if currentUser
             +unless loggingIn
               +FS.DeleteButton class="btn btn-danger btn-xs"
-              &nbsp;
+              |&nbsp;
           a(href="{{this.url}}" target="_blank") {{this.name}}
         +else #
           .upload-name Load: {{this.name}}

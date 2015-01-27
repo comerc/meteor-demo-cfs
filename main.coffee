@@ -1,7 +1,7 @@
-cl = (something) ->
-  console.log(something)
+cl = (something...) ->
+  console?.log(something...)
 
-config = admin: email: 'demo@example.com', password: '12345678'
+config = admin: email: 'demo@example.com', password: '123456'
 
 if Meteor.isServer
   Meteor.startup ->
@@ -49,24 +49,20 @@ if Meteor.isClient
         newUpload = []
   Template.hello.events
     'change input[type="file"]': (event, template) ->
-      files = event.target.files
-      count = files.length
-      i = 0
-      while i < count
-        newFile = new FS.File(files[i])
+      for inputFile in event.target.files
+        newFile = new FS.File(inputFile)
         newFile.metadata = userId: Meteor.userId()
-        # newFile.status = 'notReady' # TODO: https://github.com/CollectionFS/Meteor-CollectionFS/issues/520
         Photos.insert newFile, (error, file) ->
           throw error if error
           # If !error, we have inserted new doc with ID fileObj._id, and
           # kicked off the data upload using HTTP
           cl file
-        i++
   Template.hello.helpers
     photos: ->
+      # cl Meteor.userId()
       Photos.find()
     isNewUpload: ->
-      if newUpload.indexOf(this._id) + 1
+      if this._id in newUpload
         return true
       unless this.isUploaded()
         newUpload.push(this._id)
